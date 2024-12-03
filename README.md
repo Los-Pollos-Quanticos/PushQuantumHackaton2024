@@ -1,7 +1,7 @@
 # Rodeo Algorithm for Estimating Molecular Spectra - PushQuantum Hackathon 2024
 
 <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
-    <img src="https://docs.classiq.io/resources/pushquantum_logo.png" alt="PushQuantum Logo" style="width: 200px; height: auto;" />
+    <img src="https://cdn.prod.website-files.com/5f915ec4379c34302a83736b/660e173489e3c514aeb5094f_New_logo_symbol_no_background.png" alt="PushQuantum Logo" style="width: 200px; height: auto;" />
     <img src="https://avatars.githubusercontent.com/u/190467285?s=400&u=f1cd2ff965acf448e997e31e12778ec64f23b372&v=4" alt="Team Los Pollos Quanticos" style="width: 200px; height: auto;" />
     <img src="https://docs.classiq.io/resources/classiq-logo.svg" alt="Classiq Logo" style="width: 200px; height: auto;" />
 </div>
