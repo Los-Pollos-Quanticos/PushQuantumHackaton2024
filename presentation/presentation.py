@@ -155,20 +155,23 @@ class Presentation(Scene):
         return circuit
 
     def construct(self):
-        self.Head()
-        self.next_slide()
+        # self.Head()
+        # self.next_slide()
 
-        self.Outline()
-        self.next_slide()
+        # self.Outline()
+        # self.next_slide()
 
-        self.Intro()
-        self.next_slide()
+        # self.Intro()
+        # self.next_slide()
 
-        self.Rodeo1()
-        self.next_slide()
+        # self.Rodeo0()
+        # self.next_slide()
 
-        self.Rodeo2()
-        self.next_slide()
+        # self.Rodeo1()
+        # self.next_slide()
+
+        # self.Rodeo2()
+        # self.next_slide()
 
         self.Rodeo3()
         self.next_slide()
@@ -242,20 +245,44 @@ class Presentation(Scene):
 
         self.play(FadeIn(h1))
 
-    def Rodeo1(self):
+    def Rodeo0(self):
         h1 = Title(
             "Rodeo Algorithm",
         ).to_edge(UL)
 
-        img = ImageMobject("./images/rodeo_logo.png").set_height(3)
+        img = ImageMobject("./images/rodeo_logo.png").set_height(3).move_to(ORIGIN+DOWN*0.5)
 
-        par = Par(
-            "The Rodeo Algorithm is a quantum algorithm that estimates the eigenvalues of a Hamiltonian operator."
-        ).next_to(h1, DOWN, buff=0.5)
+        rect1 = RoundedRectangle(width=5.8, height=2.5, corner_radius=0.2, fill_color=WHITE, fill_opacity=0.9, color=DARK_BLUE).move_to(ORIGIN).shift(UP*1+LEFT*3.4)
+        q1 = Title("What is it?", type="h2", color=RED).next_to(rect1.get_top(), DOWN*1.2)
+        a1 = Title("A stochastic quantum\ncomputing algorithm", type="h2").next_to(q1, DOWN*1.8)
+        group1 = Group(rect1, q1, a1)    
+    
+        rect2 = RoundedRectangle(width=5.8, height=2.5, corner_radius=0.2, fill_color=WHITE, fill_opacity=0.9, color=DARK_BLUE).move_to(ORIGIN).shift(UP*1+RIGHT*3.4)
+        q2 = Title("What does it?", type="h2", color=RED).next_to(rect2.get_top(), DOWN*1.2)
+        a2 = Title("Eigenstate preparation\neigenvalue estimation", type="h2").next_to(q2, DOWN*1.8)
+        group2 = Group(rect2, q2, a2)
+
+        rect3 = RoundedRectangle(width=5.8, height=2.5, corner_radius=0.2, fill_color=WHITE, fill_opacity=0.9, color=DARK_BLUE).move_to(ORIGIN).shift(DOWN*2+LEFT*3.4)
+        q3 = Text("How does it?", font_size=32, color=RED).next_to(rect3.get_top(), DOWN*1.2)
+        a3 = Title("Shaking off all other \nstates until only the target \neigenvector remains", type="h2").next_to(q3, DOWN*1.7)
+        group3 = Group(rect3, q3, a3)
+
+        rect4 = RoundedRectangle(width=5.8, height=2.5, corner_radius=0.2, fill_color=WHITE, fill_opacity=0.9, color=DARK_BLUE).move_to(ORIGIN).shift(DOWN*2+RIGHT*3.4)
+        q4 = Text("Why mention it?", font_size=32, color=RED).next_to(rect4.get_top(), DOWN*1.2)
+        a4 = Title("Exponentially faster\nthan well-known algos\nfor eigenstate preparation", type="h2").next_to(q4, DOWN*1.3)
+        group4 = Group(rect4, q4, a4)
 
         self.play(FadeIn(h1, img))
+        self.wait(1.1)
+        self.play(Write(group1[0]), Write(group1[1]), Write(group1[2], run_time=1))
+        self.wait(1.1)
+        self.play(Write(group2[0]), Write(group2[1]), Write(group2[2], run_time=1))
+        self.wait(1.1)
+        self.play(Write(group3[0]), Write(group3[1]), Write(group3[2], run_time=1))
+        self.wait(1.1)
+        self.play(Write(group4[0]), Write(group4[1]), Write(group4[2], run_time=1))
 
-    def Rodeo2(self):
+    def Rodeo1(self):
         title = Text("Rodeo Structure", font_size=48, color=BLACK).to_edge(UL)
         self.play(FadeIn(title))
 
@@ -280,7 +307,7 @@ class Presentation(Scene):
             r"\frac{1}{\sqrt{2}}(\lvert 0 \rangle \lvert \psi_{I} \rangle + e^{-iHt_{n}} \lvert 1 \rangle \lvert \psi_{I} \rangle)",
             color=BLACK
         ).to_edge(DOWN)
-        self.play(Write(circuit[3]), Write(circuit[2]), Transform(expr, tra))
+        self.play(Write(circuit[2]), Write(circuit[3]), Transform(expr, tra))
         self.wait(1)
 
         circuit = self.rodeo_circuit(4).move_to(ORIGIN).scale(0.8)
@@ -298,38 +325,63 @@ class Presentation(Scene):
         ).to_edge(DOWN)
         self.play(Write(circuit[5]), Transform(expr, tra))
 
-    def Rodeo3(self):
+    def Rodeo2(self):
         title = Text("Measurement probability", font_size=48, color=BLACK).to_edge(UL)
         
         expr = MathTex(
-            r"\frac{1}{2}[(1+e^{-i(H-E)t_{n}})\lvert 0 \rangle \lvert \psi_{I} \rangle + (1-e^{-i(H-E)t_{n}})\lvert 1 \rangle \lvert \psi_{I} \rangle)]",
+            r"\frac{1}{2}[(1+e^{-i(H_{obj}-E)t_{n}})\lvert 0 \rangle \lvert \psi_{I} \rangle + (1-e^{-i(H_{obj}-E)t_{n}})\lvert 1 \rangle \lvert \psi_{I} \rangle)]",
             color=BLACK
         ).move_to(ORIGIN)
-        self.play(FadeIn(title), Write(expr, run_time=1))
-        self.wait(1)
+        text = MathTex(
+            r"\text{State prepared at the end of Rodeo ciruit}",
+            font_size=40
+        ).set_color(BLACK)
+        tex1 = MathTex(
+            r"H_{obj} \text{ commutes with all of our gates}",
+            font_size=40
+        ).set_color(BLACK)
+        
+        text_group = Group(text, tex1).arrange(DOWN, buff=0.3)
+        text_group.next_to(expr, DOWN, buff=1.5)
+        
+        self.play(FadeIn(title, text_group), Write(expr, run_time=1))
+        self.wait(1.1)
 
         tra = MathTex(
             r"P^{\lvert0\rangle}(E_{obj},E,t_{n})=\lvert\frac{1}{2}+\frac{1}{2}e^{-i(E_{obj}-E)t_{n}}\lvert^2",
             color=BLACK
         ).move_to(ORIGIN)
-        self.play(Transform(expr, tra))
-        self.wait(1)
+        text = MathTex(
+            r"\text{Probability of measuring the ancilla qubit n in the } \lvert 0 \rangle \text{ state}",
+            font_size=40
+        ).set_color(BLACK)
+        text.next_to(tra, DOWN, buff=1.5)
+        self.play(Transform(expr, tra), Transform(text_group, text))
+        self.wait(1.1)
 
         tra = MathTex(
             r"P^{\lvert0\rangle}(E_{obj},E,t_{n})=\cos^2\left[(E_{obj}-E)\frac{t_n}{2}\right]\\",
             color=BLACK
         ).move_to(ORIGIN)
-        self.play(Transform(expr, tra))
-        self.wait(1)
+        text = MathTex(
+            r"\text{The arithmetic mean of } \cos^2(\theta) \text{ when sampled uniformly over all } \theta \text{ is equal to } \frac{1}{4}.",
+            font_size=36
+        ).set_color(BLACK)
+        text.next_to(tra, DOWN, buff=1.2)
+        self.play(Transform(expr, tra), Transform(text_group, text))
+        self.wait(1.1)
 
         tra = MathTex(
             r"P^{\lvert0\rangle}_N(E_{obj},E) =\prod_{n=1}^{N} \cos^2\left[(E_{obj}-E)\frac{t_n}{2}\right]\\",
             color=BLACK
         ).move_to(ORIGIN)
-        self.play(Transform(expr, tra))
-
-        self.play(expr.animate.to_edge(UL).shift(DOWN*0.7+LEFT).scale(0.8), run_time=1)
-        self.wait(1)
+        text = MathTex(
+            r"\text{The spectral weight for any } E_{\text{obj}} \neq E \text{ is suppressed by a factor of } \frac{1}{4^N} \text{ for large } N",
+            font_size=36
+        ).set_color(BLACK)
+        text.next_to(tra, DOWN, buff=1.2)
+        self.play(Transform(expr, tra), Transform(text_group, text))
+        self.wait(1.1)
 
         N_max = 8
         T_RMS = 10.0
@@ -348,8 +400,16 @@ class Presentation(Scene):
         x_label.scale(0.8)
         y_label.scale(0.8)
 
-        self.play(Create(axes), FadeIn(x_label), FadeIn(y_label))
-        self.wait(1)
+        self.play(
+            expr.animate.to_edge(UL).shift(DOWN * 0.6 + LEFT*0.8).scale(0.7),
+            Create(axes),
+            FadeIn(x_label),
+            FadeIn(y_label),
+            FadeOut(text_group),
+            run_time=1
+        )
+
+        self.wait(1.1)
 
         def P_N_func(x, N):
             prod_val = 1.0
@@ -371,7 +431,7 @@ class Presentation(Scene):
 
         plot_old = get_plot_for_N(1)
         self.play(Create(plot_old))
-        self.wait(1)
+        self.wait(1.1)
 
         for N in range(2, N_max + 1):
             plot_new = get_plot_for_N(N)
@@ -384,3 +444,31 @@ class Presentation(Scene):
                 run_time=1
             )
             self.wait(0.5)
+
+    def Rodeo3(self):
+        h1 = Title(
+            "Computational cost",
+        ).to_edge(UL)
+
+        self.play(FadeIn(h1))
+
+    def StudyCase1(self):
+        h1 = Title(
+            "Study case: H2 molecule",
+        ).to_edge(UL)
+
+        self.play(FadeIn(h1))
+
+    def StudyCase1(self):
+        h1 = Title(
+            "Study case: H2O molecule",
+        ).to_edge(UL)
+
+        self.play(FadeIn(h1))
+
+    def Conclusion(self):
+        h1 = Title(
+            "Conclusion",
+        ).to_edge(UL)
+
+        self.play(FadeIn(h1))
