@@ -37,6 +37,9 @@ def select_disks(gershgorin_disks):
                 selected_indices.add(gershgorin_disks[j][0])
                 selected_disks.append(gershgorin_disks[j])
 
+        if len(selected_disks) >= 5:
+            break
+    
     return selected_disks
 
 def plot_disks(selected_disks, diagonal_elements, radii):
