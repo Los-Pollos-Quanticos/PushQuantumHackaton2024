@@ -1,10 +1,9 @@
-import numpy as np
 import pennylane as qml
 
 # HAMILTONIAN = (-1.0523 * qml.Identity(0) @ qml.Identity(1) 
-#      + 0.3979 * qml.Identity(0) @ qml.PauliZ(1) 
-#      - 0.3979 * qml.PauliZ(0) @ qml.Identity(1) 
-#      - 0.0112 * qml.PauliZ(0) @ qml.PauliZ(1) 
+#      + 0.3979 * qml.Identity(0) @ qml.PauliZ(1)
+#      - 0.3979 * qml.PauliZ(0) @ qml.Identity(1)
+#      - 0.0112 * qml.PauliZ(0) @ qml.PauliZ(1)
 #      + 0.1809 * qml.PauliX(0) @ qml.PauliX(1))
 
 HAMILTONIAN = (
@@ -25,30 +24,3 @@ HAMILTONIAN = (
 ) 
 
 hamiltonian_matrix = qml.matrix(HAMILTONIAN)
-
-
-def analytical_solution(hamiltonian):
-    """
-    Compute the analytical solution of the Hamiltonian.
-
-    Args:
-        - hamiltonian: express using the pennylane qml operations
-
-    Returns:
-        - eig_val: a list of eigenvalues
-        - eig_vec: a list of eigenvectors
-    """
-    Hamiltonian_matrix = qml.matrix(hamiltonian)
-
-    eig_vals, eig_vecs = np.linalg.eigh(Hamiltonian_matrix)
-
-    # put the eigenvectors in the correct shape, i.e each row is an eigenvector
-    eig_vecs = eig_vecs.transpose()
-
-    # sort the eigenvalues and eigenvectors
-    # for example, if eig_vals = [3, 1, 2], then eig_vals.argsort() will return [1, 2, 0]
-    ordered_idxs = eig_vals.argsort()
-    eig_vals = eig_vals[ordered_idxs]
-    eig_vecs = eig_vecs[ordered_idxs]
-
-    return eig_vals, eig_vecs

@@ -1,7 +1,7 @@
-from config import hamiltonian_matrix
-
 import numpy as np
 import matplotlib.pyplot as plt
+
+from penny_config import hamiltonian_matrix
 
 def compute_gershgorin_disks(H):
     diagonal_elements = np.real(np.diag(H))

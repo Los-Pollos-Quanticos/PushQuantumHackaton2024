@@ -2,8 +2,23 @@ import numpy as np
 import pennylane as qml
 
 from pennylane import numpy as np
+from penny_config import HAMILTONIAN
 from pennylane.optimize import AdamOptimizer
-from config import HAMILTONIAN, analytical_solution
+
+def analytical_solution(hamiltonian):
+    """
+    Compute the analytical solution of the Hamiltonian.
+
+    Returns:
+        - eig_val: a list of eigenvalues
+        - eig_vec: a list of eigenvectors
+    """
+    Hamiltonian_matrix = qml.matrix(hamiltonian)
+
+    eig_val, eig_vec = np.linalg.eig(Hamiltonian_matrix)
+
+    return eig_val, eig_vec.transpose()
+
 
 def ansatz(params, num_layers, N):
     for i in range(num_layers):
@@ -20,7 +35,7 @@ def vqd(N, num_layers, num_eig, penalty, operator, tolerance=1e-6, num_iteration
     optimizer = AdamOptimizer(stepsize=0.1)
 
     vqd_eig_vecs = []
-    analytical_eig_vals, analytical_eig_vecs = analytical_solution(operator)
+    analytical_eig_vals, analytical_eig_vecs = analytical_solution(qml.matrix(operator))
     analytical_state = analytical_eig_vecs[0]
 
     for i in range(num_eig):
