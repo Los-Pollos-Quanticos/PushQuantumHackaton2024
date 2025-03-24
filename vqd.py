@@ -9,15 +9,27 @@ def analytical_solution(hamiltonian):
     """
     Compute the analytical solution of the Hamiltonian.
 
+    Args:
+        - hamiltonian: express using the pennylane qml operations
+
     Returns:
         - eig_val: a list of eigenvalues
         - eig_vec: a list of eigenvectors
     """
     Hamiltonian_matrix = qml.matrix(hamiltonian)
 
-    eig_val, eig_vec = np.linalg.eig(Hamiltonian_matrix)
+    eig_vals, eig_vecs = np.linalg.eigh(Hamiltonian_matrix)
 
-    return eig_val, eig_vec.transpose()
+    # put the eigenvectors in the correct shape, i.e each row is an eigenvector
+    eig_vecs = eig_vecs.transpose()
+
+    # sort the eigenvalues and eigenvectors
+    # for example, if eig_vals = [3, 1, 2], then eig_vals.argsort() will return [1, 2, 0]
+    ordered_idxs = eig_vals.argsort()
+    eig_vals = eig_vals[ordered_idxs]
+    eig_vecs = eig_vecs[ordered_idxs]
+
+    return eig_vals, eig_vecs
 
 
 def ansatz(params, num_layers, N):
@@ -35,7 +47,7 @@ def vqd(N, num_layers, num_eig, penalty, operator, tolerance=1e-6, num_iteration
     optimizer = AdamOptimizer(stepsize=0.1)
 
     vqd_eig_vecs = []
-    analytical_eig_vals, analytical_eig_vecs = analytical_solution(qml.matrix(operator))
+    analytical_eig_vals, analytical_eig_vecs = analytical_solution(operator)
     analytical_state = analytical_eig_vecs[0]
 
     for i in range(num_eig):
